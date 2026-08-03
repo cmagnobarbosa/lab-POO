@@ -1,0 +1,295 @@
+# Guia de Implementacao: Sistema Simples de Biblioteca em Java
+
+## Publico-alvo
+
+Este guia foi pensado para uma turma de graduacao em Ciencia da Computacao no segundo periodo. O objetivo e ajudar os estudantes a compreenderem os conceitos necessarios para implementar, executar e evoluir um pequeno sistema de gerenciamento de livros usando Java e Programacao Orientada a Objetos.
+
+## Visao Geral do Projeto
+
+O projeto representa uma biblioteca de forma simplificada. Ele possui:
+
+- Uma classe `Livro`, responsavel por representar os dados e comportamentos de um livro.
+- Uma classe `Main`, responsavel por criar objetos, armazenar livros em uma lista e exibir informacoes na tela.
+- Um pacote chamado `biblioteca`, usado para organizar a classe `Livro`.
+
+A estrutura esperada e:
+
+```text
+biblioteca/
+  Livro.java
+Main.java
+README.md
+```
+
+## Objetivos de Aprendizagem
+
+Ao estudar e implementar este codigo, o estudante deve ser capaz de:
+
+- Entender o papel de classes e objetos em Java.
+- Declarar atributos e metodos.
+- Usar construtores para inicializar objetos.
+- Aplicar encapsulamento com atributos `private` e metodos de acesso.
+- Organizar classes em pacotes.
+- Criar e percorrer listas usando `ArrayList` e `List`.
+- Sobrescrever o metodo `toString()`.
+- Compilar e executar um programa Java com mais de uma classe.
+
+## Conceitos Necessarios
+
+## 1. Classe
+
+Uma classe e um modelo usado para criar objetos. No projeto, a classe `Livro` define quais informacoes um livro deve ter e quais acoes ele pode realizar.
+
+Exemplo de atributos definidos em `Livro`:
+
+```java
+private String isbn;
+private String titulo;
+private String autor;
+private int anoPublicacao;
+private boolean disponivel;
+```
+
+Esses atributos representam o estado de um livro.
+
+## 2. Objeto
+
+Um objeto e uma instancia concreta de uma classe. Em `Main.java`, os livros sao criados assim:
+
+```java
+Livro livro1 = new Livro("978-85-359-0277-3", "Dom Casmurro", "Machado de Assis", 1899);
+```
+
+Nesse caso, `livro1` e um objeto da classe `Livro`.
+
+## 3. Atributos
+
+Atributos sao variaveis pertencentes a uma classe. Eles guardam os dados de cada objeto.
+
+No projeto, cada livro possui:
+
+- `isbn`: codigo identificador do livro.
+- `titulo`: nome da obra.
+- `autor`: nome do autor.
+- `anoPublicacao`: ano em que a obra foi publicada.
+- `disponivel`: indica se o livro pode ser emprestado.
+
+## 4. Metodos
+
+Metodos representam comportamentos. Na classe `Livro`, existem metodos para consultar dados, emprestar, devolver e formatar a exibicao do livro.
+
+Exemplo:
+
+```java
+public void emprestar() {
+    if (disponivel) {
+        disponivel = false;
+        System.out.println("Livro emprestado com sucesso!");
+    } else {
+        System.out.println("Livro indisponivel para emprestimo.");
+    }
+}
+```
+
+Esse metodo altera o estado do objeto, mudando `disponivel` de `true` para `false` quando o livro e emprestado.
+
+## 5. Construtor
+
+O construtor e chamado quando um objeto e criado com `new`. Ele inicializa os atributos do objeto.
+
+Na classe `Livro`:
+
+```java
+public Livro(String isbn, String titulo, String autor, int anoPublicacao) {
+    this.isbn = isbn;
+    this.titulo = titulo;
+    this.autor = autor;
+    this.anoPublicacao = anoPublicacao;
+    this.disponivel = true;
+}
+```
+
+O uso de `this` indica que o atributo pertence ao objeto atual.
+
+## 6. Encapsulamento
+
+Encapsulamento e o principio de proteger os dados internos de uma classe. No codigo, os atributos sao `private`, ou seja, nao podem ser acessados diretamente de fora da classe.
+
+Para consultar os dados, sao usados metodos `get`:
+
+```java
+public String getTitulo() {
+    return titulo;
+}
+```
+
+Esse padrao evita alteracoes indevidas e deixa a classe mais controlada.
+
+## 7. Booleanos e Controle de Estado
+
+O atributo `disponivel` e do tipo `boolean`, que aceita apenas `true` ou `false`.
+
+No contexto do sistema:
+
+- `true`: o livro esta disponivel.
+- `false`: o livro esta emprestado.
+
+Os metodos `emprestar()` e `devolver()` alteram esse estado.
+
+## 8. Estruturas Condicionais
+
+O metodo `emprestar()` usa `if` e `else` para decidir o que fazer:
+
+```java
+if (disponivel) {
+    disponivel = false;
+} else {
+    System.out.println("Livro indisponivel para emprestimo.");
+}
+```
+
+Essa estrutura permite executar comportamentos diferentes dependendo da situacao do livro.
+
+## 9. Pacotes
+
+Pacotes organizam classes em grupos. A classe `Livro` esta no pacote `biblioteca`:
+
+```java
+package biblioteca;
+```
+
+Por isso, em `Main.java`, e necessario importar a classe:
+
+```java
+import biblioteca.Livro;
+```
+
+O nome do pacote deve corresponder a estrutura de diretorios. Como a classe esta no pacote `biblioteca`, o arquivo deve estar em:
+
+```text
+biblioteca/Livro.java
+```
+
+## 10. Listas com `List` e `ArrayList`
+
+O projeto usa uma lista para armazenar varios livros:
+
+```java
+List<Livro> livros = new ArrayList<>();
+```
+
+Aqui existem dois conceitos importantes:
+
+- `List<Livro>` define uma colecao de objetos do tipo `Livro`.
+- `ArrayList<>` e uma implementacao concreta dessa lista.
+
+Depois, os objetos sao adicionados:
+
+```java
+livros.add(livro1);
+livros.add(livro2);
+```
+
+## 11. Laco `for-each`
+
+Para percorrer a lista, o codigo usa:
+
+```java
+for (Livro livro : livros) {
+    System.out.println(livro);
+}
+```
+
+Esse laco significa: para cada objeto `Livro` dentro da lista `livros`, execute o bloco de codigo.
+
+## 12. Metodo `toString()`
+
+O metodo `toString()` define como o objeto sera representado em texto.
+
+Quando o programa executa:
+
+```java
+System.out.println(livro);
+```
+
+Java chama automaticamente:
+
+```java
+livro.toString()
+```
+
+No projeto, isso permite mostrar ISBN, titulo, autor, ano de publicacao e disponibilidade.
+
+## Como Compilar e Executar
+
+Na pasta raiz do projeto, compile os arquivos:
+
+```bash
+javac Main.java biblioteca/Livro.java
+```
+
+Depois, execute:
+
+```bash
+java Main
+```
+
+A saida esperada sera semelhante a:
+
+```text
+Sistema de gerenciamento de biblioteca
+ISBN: 978-85-359-0277-3, Titulo: Dom Casmurro, Autor: Machado de Assis, Ano de Publicacao: 1899, Disponivel: Sim
+ISBN: 978-85-359-0278-0, Titulo: O Alquimista, Autor: Paulo Coelho, Ano de Publicacao: 1988, Disponivel: Sim
+```
+
+## Roteiro Sugerido de Implementacao
+
+1. Criar a pasta `biblioteca`.
+2. Criar o arquivo `Livro.java` dentro da pasta `biblioteca`.
+3. Declarar o pacote `biblioteca`.
+4. Criar a classe publica `Livro`.
+5. Declarar os atributos privados.
+6. Criar o construtor da classe.
+7. Criar os metodos `get`.
+8. Criar os metodos `emprestar()` e `devolver()`.
+9. Sobrescrever o metodo `toString()`.
+10. Criar o arquivo `Main.java`.
+11. Importar `biblioteca.Livro`.
+12. Criar objetos do tipo `Livro`.
+13. Criar uma lista de livros.
+14. Adicionar livros na lista.
+15. Percorrer a lista e imprimir os dados.
+
+## Exercicios Propostos
+
+1. No `Main.java`, chame o metodo `emprestar()` em um dos livros antes de imprimir a lista.
+2. Teste chamar `emprestar()` duas vezes no mesmo livro e observe o resultado.
+3. Chame `devolver()` em um livro emprestado e imprima novamente a lista.
+4. Adicione mais tres livros a lista.
+5. Crie um metodo `setTitulo(String titulo)` e discuta se permitir alterar o titulo de um livro e uma boa decisao.
+6. Crie uma classe `Biblioteca` para armazenar a lista de livros e mover para ela as operacoes de adicionar e listar.
+7. Implemente uma busca por ISBN.
+8. Implemente uma busca por autor.
+9. Crie uma validacao para impedir ano de publicacao negativo.
+10. Altere o metodo `devolver()` para avisar quando o livro ja estiver disponivel.
+
+## Pontos de Discussao em Sala
+
+- Por que os atributos da classe `Livro` sao privados?
+- Qual a diferenca entre classe e objeto?
+- Por que usamos `List<Livro>` em vez de declarar varios livros separadamente?
+- O metodo `emprestar()` deveria apenas alterar o estado ou tambem imprimir mensagens?
+- Em quais situacoes faria sentido criar uma classe `Biblioteca`?
+- O que aconteceria se o arquivo `Livro.java` estivesse fora da pasta `biblioteca`?
+
+## Possiveis Evolucoes do Projeto
+
+Depois que a turma dominar a versao inicial, o projeto pode ser expandido com:
+
+- Classe `Biblioteca`.
+- Classe `Usuario`.
+- Classe `Emprestimo`.
+- Menu interativo com `Scanner`.
+- Persistencia em arquivo texto.
+- Tratamento de excecoes.
+
