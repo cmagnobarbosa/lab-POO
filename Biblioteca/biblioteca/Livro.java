@@ -1,89 +1,98 @@
-package biblioteca; // Pacote da classe Livro
-// Pacote é uma forma de organizar as classes em Java, permitindo agrupar classes relacionadas em um mesmo namespace. 
-// Isso ajuda a evitar conflitos de nomes e facilita a manutenção do código.
+package biblioteca;
 
-// Livro.java -- Classe que representa um livro em uma biblioteca.
-// Classe é um modelo ou uma estrutura que define as propriedades e comportamentos de um objeto.
-// Classe é uma abstração que encapsula dados (atributos) e métodos (comportamentos) relacionados a um conceito específico.
-// Uma classe somente captura parte do mundo real, representando apenas os aspectos relevantes para o contexto do programa.
-
+/** Representa um livro e controla sua disponibilidade para empréstimo. */
 public class Livro {
-
-    // Atributos da classe Livro
-    // Atributos são variáveis que armazenam 
-    // informações sobre o estado de um objeto.
     private String isbn;
     private String titulo;
     private String autor;
     private int anoPublicacao;
     private boolean disponivel;
-    private int numeroDePaginas; // Atributo adicional para armazenar o número de páginas do livro
 
-    // Construtor da classe Livro
-    // Construtor é um método especial que é chamado quando um objeto da classe é criado.
-    // Ele é usado para inicializar os atributos do objeto.
     public Livro(String isbn, String titulo, String autor, int anoPublicacao) {
-        this.isbn = isbn; // "this" é uma referência ao objeto atual da classe.
-        this.titulo = titulo;
-        this.autor = autor;
-        this.anoPublicacao = anoPublicacao;
+        setIsbn(isbn);
+        setTitulo(titulo);
+        setAutor(autor);
+        setAnoPublicacao(anoPublicacao);
         this.disponivel = true;
     }
-    
+
     public String getIsbn() {
         return isbn;
     }
 
     public void setIsbn(String isbn) {
-        this.isbn = isbn;
+        this.isbn = validarTexto(isbn, "ISBN");
     }
-
 
     public String getTitulo() {
         return titulo;
     }
 
     public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-    public void setAnoPublicacao(int anoPublicacao) {
-        this.anoPublicacao = anoPublicacao;
+        this.titulo = validarTexto(titulo, "Título");
     }
 
     public String getAutor() {
         return autor;
     }
 
+    public void setAutor(String autor) {
+        this.autor = validarTexto(autor, "Autor");
+    }
+
     public int getAnoPublicacao() {
         return anoPublicacao;
+    }
+
+    public void setAnoPublicacao(int anoPublicacao) {
+        if (anoPublicacao <= 0) {
+            throw new IllegalArgumentException("O ano de publicação deve ser positivo.");
+        }
+        this.anoPublicacao = anoPublicacao;
     }
 
     public boolean isDisponivel() {
         return disponivel;
     }
 
-    public void emprestar() {
-        if (disponivel) {
-            disponivel = false;
-            System.out.println("Livro emprestado com sucesso!");
-        } else {
-            System.out.println("Livro indisponível para empréstimo.");
+    /** Empresta o livro se ele estiver disponível. */
+    public boolean emprestar() {
+        if (!disponivel) {
+            System.out.println("Livro indisponível para empréstimo: " + titulo);
+            return false;
         }
+
+        disponivel = false;
+        System.out.println("Livro emprestado com sucesso: " + titulo);
+        return true;
     }
 
-    public void devolver() {
+    /** Devolve o livro se ele estiver emprestado. */
+    public boolean devolver() {
+        if (disponivel) {
+            System.out.println("O livro já está disponível: " + titulo);
+            return false;
+        }
+
         disponivel = true;
-        System.out.println("Livro devolvido com sucesso!");
+        System.out.println("Livro devolvido com sucesso: " + titulo);
+        return true;
+    }
+
+    private String validarTexto(String valor, String campo) {
+        if (valor == null || valor.isBlank()) {
+            throw new IllegalArgumentException(campo + " não pode ser vazio.");
+        }
+        return valor.trim();
     }
 
     @Override
     public String toString() {
-        return "ISBN: " + isbn + ", Título: " + titulo + ", Autor: " + autor + ", Ano de Publicação: " + anoPublicacao + ", Disponível: " + (disponivel ?
-    "Sim" : "Não");
+        String status = disponivel ? "Sim" : "Não";
+        return "ISBN: " + isbn
+                + ", Título: " + titulo
+                + ", Autor: " + autor
+                + ", Ano de Publicação: " + anoPublicacao
+                + ", Disponível: " + status;
     }
 }
