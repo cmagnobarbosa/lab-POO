@@ -2,7 +2,7 @@ package Heranca;
 // Classe que representa um funcionário administrativo, herdando da classe Funcionario.
 // Contém atributos e comportamentos específicos para funcionários administrativos.
 
-public class FuncionarioAdministrativo extends Funcionario {
+public class FuncionarioAdministrativo extends Funcionario implements Notificavel {
     private String setor;
 
     public FuncionarioAdministrativo(String nome, int idade, String setor) {
@@ -21,5 +21,9 @@ public class FuncionarioAdministrativo extends Funcionario {
 
     public String toString() {
         return super.toString() + ", Setor: " + setor;
+    }
+
+    public void notificar(String mensagem){
+        System.out.println("Notificação" + mensagem);
     }
 }

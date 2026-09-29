@@ -41,7 +41,6 @@ public abstract class Funcionario{
         this.profissao = profissao;
     }
 
-    @Override
     public String toString(){
         // Retorna uma representação em String do objeto Funcionario
         return "Nome: " + nome + ", Idade: " + idade + ", Profissao: " + profissao;

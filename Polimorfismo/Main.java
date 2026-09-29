@@ -8,6 +8,7 @@ public class Main {
         
         // A lista usa o tipo comum, mas guarda objetos de classes diferentes.
         List<Funcionario> funcionarios = new ArrayList<>();
+
         funcionarios.add(new Professor("João", 40, "Matemática"));
         funcionarios.add(new FuncionarioAdministrativo("Ana", 25, "Financeiro"));
 
